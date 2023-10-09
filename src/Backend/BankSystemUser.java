@@ -5,18 +5,97 @@ import java.util.ArrayList;
 public class BankSystemUser extends BankSystem {
 	private int userId;
 	private String username;
-	private String pasword;
+	private String password;
 
 	public BankSystemUser(String username, String password) {
 //		super.updateUsers();
 		this.username = username;
-		this.pasword = password;
-		defineUserId(username);
+		this.password = password;
+		this.userId = findIdByUsername(username);
+		checkingLogin();
 	}
-	
-	private void defineUserId(String username) {
-		userId = super.findIdByUsername(username);
+
+	public void checkingLogin() {
+		if (!loginUser()) {
+			throw new IllegalStateException("User not logged in as CLIENT");
+		}
+
 	}
-	
+
+	public boolean loginUser() {
+		if (super.login(username, password) == true) {
+			if (super.getAccountType(username, password).equals("CLIENT")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// USER METHODS
+	public void makeDeposit(int value) {
+		if (!loginUser()) {
+			throw new IllegalStateException("User not logged in as CLIENT");
+		}
+		assert (value > 0);
+		for (User now : super.getUsers()) {
+			if (now.getUserId() == userId) {
+				now.setAccountValue(now.getAccountValue() + value);
+				break;
+			}
+		}
+		updateFile();
+	}
+
+	public void makeTransfer(int userId2, int value) {
+		if (!loginUser()) {
+			throw new IllegalStateException("User not logged in as CLIENT");
+		}
+		if (userId2 == userId) {
+			throw new IllegalStateException("You cannot make a transfer to yourself");
+		}
+		assert (value > 0);
+		for (User now : super.getUsers()) {
+			if (now.getUserId() == userId)
+				now.setAccountValue(now.getAccountValue() - value);
+			if (now.getUserId() == userId2)
+				now.setAccountValue(now.getAccountValue() + value);
+		}
+		updateFile();
+	}
+
+	public int getBalance() {
+		if (!loginUser()) {
+			throw new IllegalStateException("User not logged in as CLIENT");
+		}
+
+		for (User now : super.getUsers()) {
+			if (now.getUserId() == userId) {
+				return now.getAccountValue();
+			}
+		}
+		return -1;
+	}
+	public String getUsername() {
+		if (!loginUser()) {
+			throw new IllegalStateException("User not logged in as CLIENT");
+		}
+
+		for (User now : super.getUsers()) {
+			if (now.getUserId() == userId) {
+				return now.getUsername();
+			}
+		}
+		return "ERROR!!!USER NOT FOUND";
+	}
+
+	@Override
+	public String toString() {
+		if (!loginUser()) {
+			throw new IllegalStateException("User not logged in as CLIENT");
+		}
+		String result = "You're logged as " + username + ", userId:" + userId + ", accountValue:" + getBalance()
+				+ ", accountType:" + getAccountType(username, password);
+		return result;
+	}
 
 }

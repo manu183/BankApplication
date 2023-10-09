@@ -39,61 +39,100 @@ public class BankApplication {
 
 			System.out.println(
 					"Options: \n 1.Login your account \n 2.Create an account \n 3.Delete my account \n 4.Admin Painel \n 5.Exit bank application");
-			System.out.print("Option selected:");
+			System.out.print("\nOption selected:");
 			Scanner keyboard = new Scanner(System.in);
 			int selectedOption = keyboard.nextInt();
 //		keyboard.close();
 
 			switch (selectedOption) {
 			case 1:
-				System.out.println(parentesis + "Login" + parentesis);
+				System.out.println();
+				System.out.println(parentesis + "Login as User" + parentesis);
 
 				String username = "";
 				String password = "";
-				BankSystem sessionTemp = new BankSystem();
+				BankSystemUser user = null;
 				boolean isLogged = false;
 				int times = 0;// If login is not accepted it will indicate in the next loop "Wrong password"
 				final int maxTries = 5;
 				while (!isLogged) {
 					if (times >= 1) {
-						System.err.println("\nWrong password! Try again");
+						//System.err.println("\nWrong password! Try again");
 						if (times >= maxTries) {
 							System.err.println("To many tries!!! Closing application...");
 							keyboard.close();
 							closeApp();
 						}
 					}
-					System.out.print("\nEnter your username:");
+					System.out.print("Enter your username:");
 					username = keyboard.next();
 					System.out.print("Enter your password:");
 					password = keyboard.next();
-
-
-					isLogged = sessionTemp.logIn(username, password);
+					 try {
+					        user = new BankSystemUser(username, password);
+					        isLogged = user.loginUser();
+					        if (isLogged) {
+					            break; // Exit loop because user logged in
+					        }
+					    } catch (IllegalStateException e) {
+					        // Handle the exception, log it, or perform any necessary cleanup
+					        System.err.println("\nInvalid login credentials. Please try again.");
+					    } 
 					times++;
-				}
-				//Check if the session type is an ADMIN. If it is an ADMIN the access to this section is denied.
-				if(sessionTemp.getAccountType(username,password).equals("ADMIN"))
-					System.out.println("You are an ADMIN. Please choose option number 4.");
-				else {
-					//Create an object BankSystemUser
-					BankSystemUser clientSession = new BankSystemUser(username,password);
-//					System.out.println("You are logged in " + clientSession.getUsername());
-					System.out.println("Options: \n 1.Get account balance \n 2.Make a deposit \n 3.Make a transfer to other account");
-					selectedOption = keyboard.nextInt();
-					switch (selectedOption) {
-					case 1:
-						System.out.println(parentesis+"Get balance"+parentesis);
-//						System.out.println("Balance of "+ clientSession.getUsername()+":"+clientSession.getBalance());
-						break;
-						
-					case 2:
-						System.out.println(parentesis+"Make a deposit"+parentesis);
-						System.out.print("Value of deposit:");
-						int deposit = keyboard.nextInt();
-//						System.out.println("Now your balance is:" + clientSession.getBalance());
-						break;
+					
+					//Time between two tries to login. 200ms
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
+				}
+				//There is no need to check if user is an CLIENT because object will be accept if it's not
+//					System.out.println("You are logged in " + clientSession.getUsername());
+				System.out.println("\nOptions: \n 1.Get account balance \n 2.Make a deposit \n 3.Make a transfer to other account");
+				System.out.print("Option selected:");
+				selectedOption = keyboard.nextInt();
+				switch (selectedOption) {
+				case 1:
+					System.out.println(parentesis+"Get balance"+parentesis);
+						System.out.println("Balance of "+ user.getUsername()+":"+user.getBalance());
+					break;
+					
+				case 2:
+					System.out.println(parentesis+"Make a deposit"+parentesis);
+					System.out.print("Value of deposit:");
+					int deposit = keyboard.nextInt();
+					user.makeDeposit(deposit);
+					System.out.println("Now your balance is:" + user.getBalance());
+					break;
+				case 3:
+					System.out.println(parentesis+"Make a transfer"+parentesis);
+					System.out.print("Value of deposit:");
+					int transferValue = keyboard.nextInt();
+					System.out.print("Id of destionation account:");
+					int accountDestination = keyboard.nextInt();
+					System.out.print("Are you sure you want to transfer " + transferValue + " to " + accountDestination+ "?");
+					String verify = keyboard.next();
+					String inputs[] = {"Yes","YES", "yes","y","Y"};
+					for(String now: inputs) {
+						if(now.equals(verify)) {
+							int valueBefore = user.getBalance();
+							try {
+								user.makeTransfer(accountDestination, transferValue);								
+							} catch (IllegalStateException e) {
+								System.err.println(e.getMessage());
+							}
+							if(user.getBalance()==valueBefore-transferValue) {
+								System.out.println("Transfer made with success!");
+							}else {
+								System.err.println("An error ocurred. The transfer was not made!");
+							}
+							
+							break;
+						}
+					}
+
 				}
 				break;
 				

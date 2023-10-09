@@ -54,7 +54,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		String result= "id:"+getUserId()+" username:" +getUsername()+" password:"+getPassword() + " value:"+getAccountValue() + "account Type:" + getAccountType();
+		String result= "id:"+getUserId()+" username:" +getUsername()+" password:"+getPassword() + " value:"+getAccountValue() + " account Type:" + getAccountType() + "\n";
 //		String result= "id:"+userId+" username:" +username+" password:"+password + " value:"+accountValue + " account Type:" + accountType;
 
 		return result;
