@@ -41,8 +41,8 @@ public class BankApplication {
 		}
 	}
 
-	public static void sleep3Seconds() {
-		sleepNSeconds(3);
+	public static void sleepSeconds() {
+		sleepNSeconds(1);
 	}
 
 	public static void main(String[] args) {
@@ -115,7 +115,7 @@ public class BankApplication {
 				case 1:
 					System.out.println(parentesis + "Get balance" + parentesis);
 					System.out.println("Balance of " + user.getUsername() + ":" + user.getBalance());
-					sleep3Seconds();
+					sleepSeconds();
 					break;
 
 				case 2:
@@ -124,7 +124,7 @@ public class BankApplication {
 					int deposit = keyboard.nextInt();
 					user.makeDeposit(deposit);
 					System.out.println("Now your balance is:" + user.getBalance());
-					sleep3Seconds();
+					sleepSeconds();
 					break;
 				case 3:
 					System.out.println(parentesis + "Make a transfer" + parentesis);
@@ -153,7 +153,7 @@ public class BankApplication {
 							break;
 						}
 					}
-					sleep3Seconds();
+					sleepSeconds();
 					break;
 				case 4:
 					System.out.println(parentesis + "Delete my account" + parentesis);
@@ -177,7 +177,7 @@ public class BankApplication {
 					break;
 
 				}
-				sleep3Seconds();
+				sleepSeconds();
 				break;
 
 			case 2:
@@ -187,7 +187,7 @@ public class BankApplication {
 				System.out.print("Enter the password of your new account:");
 				String account_password = keyboard.next();
 				BankSystemCreateUser newUser = new BankSystemCreateUser(account_username, account_password);
-				sleep3Seconds();
+				sleepSeconds();
 				break;
 
 			case 3:
@@ -249,7 +249,7 @@ public class BankApplication {
 					System.out.print("Set new password:");
 					String new_password = keyboard.next();
 					admin.changePassword(user_id, new_password);
-					sleep3Seconds();
+					sleepSeconds();
 					break;
 
 				case 2:
@@ -259,7 +259,7 @@ public class BankApplication {
 					System.out.print("New account value:");
 					int new_account_value = keyboard.nextInt();
 					admin.changeAccountValue(user_id, new_account_value);
-					sleep3Seconds();
+					sleepSeconds();
 					break;
 				case 3:
 					System.out.println(parentesis + "Change user id" + parentesis);
@@ -269,7 +269,7 @@ public class BankApplication {
 					System.out.print("New user id:");
 					int new_user_id = keyboard.nextInt();
 					admin.changeAccountId(user_id, new_user_id);
-					sleep3Seconds();
+					sleepSeconds();
 					break;
 				}
 				break;

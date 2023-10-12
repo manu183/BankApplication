@@ -41,7 +41,7 @@ public class EncryptDecryptFile {
             inputStream.close();
             outputStream.close();
 
-            System.out.println("File encrypted successfully.");
+//            System.out.println("File encrypted successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public class EncryptDecryptFile {
             inputStream.close();
             outputStream.close();
 
-            System.out.println("File decrypted successfully.");
+//            System.out.println("File decrypted successfully.");
         } catch (Exception e) {
             e.printStackTrace();
         }
