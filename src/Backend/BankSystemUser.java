@@ -46,6 +46,9 @@ public class BankSystemUser extends BankSystem {
 		updateFile();
 	}
 
+	//TEMPORARY IMPLEMENTATION
+	//This method is implemented with O(n^2)
+	//TODO Implement a better version of this method
 	public void makeTransfer(int userId2, int value) {
 		if (!loginUser()) {
 			throw new IllegalStateException("User not logged in as CLIENT");
@@ -55,10 +58,15 @@ public class BankSystemUser extends BankSystem {
 		}
 		assert (value > 0);
 		for (User now : super.getUsers()) {
-			if (now.getUserId() == userId)
-				now.setAccountValue(now.getAccountValue() - value);
-			if (now.getUserId() == userId2)
-				now.setAccountValue(now.getAccountValue() + value);
+			if (now.getUserId() == userId) {
+				for(User now2: super.getUsers()) {
+					if (now.getUserId() == userId2) {
+						now.setAccountValue(now.getAccountValue() - value);
+						now.setAccountValue(now.getAccountValue() + value);
+					}
+				}
+			}
+				
 		}
 		updateFile();
 	}
@@ -86,6 +94,16 @@ public class BankSystemUser extends BankSystem {
 			}
 		}
 		return "ERROR!!!USER NOT FOUND";
+	}
+	
+	public String deleteAccount(String password) {
+		if (!loginUser() || !password.equals(this.password)) {
+			throw new IllegalStateException("User not logged in as CLIENT");
+		}
+		super.removeUser(userId, username, password);
+		
+		String res = "Id:" + userId +", username:" + username +"was deleted with success!"; 
+		return res;
 	}
 
 	@Override

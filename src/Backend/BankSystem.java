@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public abstract class BankSystem {
@@ -43,6 +44,13 @@ public abstract class BankSystem {
 	protected boolean login(String username, String password) {
 		for (User now : users) {
 			if (now.getUsername().equals(username) && now.getPassword().equals(password))
+				return true;
+		}
+		return false;
+	}
+	protected boolean login(int userId,String username, String password) {
+		for (User now : users) {
+			if (now.getUserId()==userId&& now.getUsername().equals(username) && now.getPassword().equals(password))
 				return true;
 		}
 		return false;
@@ -88,6 +96,45 @@ public abstract class BankSystem {
 	// Get users
 	protected ArrayList<User> getUsers() {
 		return users;
+	}
+	
+	protected void removeUser(int userId, String username, String password) {
+		User toRemove = null;
+		Iterator<User> iterator = users.iterator();
+	    while (iterator.hasNext()) {
+	        User now = iterator.next();
+	        if (now.getUserId() == userId && now.getUsername().equals(username) && now.getPassword().equals(password)) {
+	            iterator.remove(); // Use iterator to remove the element safely
+	        }
+	    }
+	    
+		if(existsUser(toRemove)) {
+			throw new IllegalStateException("Some ERROR ocurred. User was not deleted");
+		}
+		updateFile();
+	}
+	
+	protected boolean existsUser(User user) {
+		for(User now: users) {
+			if(now.equals(user)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected boolean existsUser(int userId) {
+		for(User now: users) {
+			if(now.getUserId()==userId) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	protected void addNewUser(User user) {
+		users.add(user);
+		updateFile();
 	}
 
 	// Set users

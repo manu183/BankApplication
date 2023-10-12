@@ -22,7 +22,7 @@ public class BankSystemAdmin extends BankSystem{
 	
 	
 	public boolean loginAdmin() {
-		if(super.login(username,password) == true) {
+		if(super.login(userId,username,password) == true) {
 			if(super.getAccountType(username,password).equals("ADMIN")) {
 				return true;
 			}
@@ -30,7 +30,7 @@ public class BankSystemAdmin extends BankSystem{
 		return false;
 	}
 	
-	protected void changePassword(int userId, String newPassword) {
+	public void changePassword(int userId, String newPassword) {
 		if (!loginAdmin()) {
 	        throw new IllegalStateException("User not logged in as CLIENT");
 	    }
@@ -43,7 +43,7 @@ public class BankSystemAdmin extends BankSystem{
 		updateFile();
 	}
 
-	protected void changeAccountValue(int userId, int newAccountValue) {
+	public void changeAccountValue(int userId, int newAccountValue) {
 		if (!loginAdmin()) {
 	        throw new IllegalStateException("User not logged in as CLIENT");
 	    }
@@ -56,7 +56,7 @@ public class BankSystemAdmin extends BankSystem{
 		updateFile();
 	}
 
-	protected String changeAccountId(int userId, int newUserId) {
+	public String changeAccountId(int userId, int newUserId) {
 		if (!loginAdmin()) {
 	        throw new IllegalStateException("User not logged in as CLIENT");
 	    }
