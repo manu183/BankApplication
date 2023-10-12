@@ -26,8 +26,10 @@ public class Test {
 //		BankSystem a = new BankSystem();
 //		a.removeUser(43, "TempUser", "pass");
 //		
-		BankSystemCreateUser newUser = new BankSystemCreateUser("Username","password");
+//		BankSystemCreateUser newUser = new BankSystemCreateUser("Username","password");
 //		System.out.println(newUser.generateUserId());
 //		newUser.createAccount();
+//		EncryptDecryptFile.encrypt();
+//		EncryptDecryptFile.decrypt();
 	}
 }

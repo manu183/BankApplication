@@ -1,0 +1,4 @@
+6 Joao password 175 CLIENT
+423 Maria password 1000 CLIENT
+999 Joaquina password 43 ADMIN
+38 Gonçalo passwordDoGoncalo 0 CLIENT

@@ -18,6 +18,7 @@ public abstract class BankSystem {
 
 	// This method will update ArrayList according to .txt file
 	protected void updateUsers() {
+		EncryptDecryptFile.decrypt();
 		File file = new File("Files/users.txt");
 		Scanner scanner;
 		try {
@@ -37,6 +38,7 @@ public abstract class BankSystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		EncryptDecryptFile.encrypt();
 	}
 
 	//LOGIN
@@ -91,6 +93,7 @@ public abstract class BankSystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		EncryptDecryptFile.encrypt();
 	}
 
 	// Get users
